@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { TouchableHighlight } from 'react-native-web';
+import { StyleSheet, Text, View,TouchableHighlight } from 'react-native';
 
 export default function ItemCity({cityName, numInhabitants}) {
   return (

@@ -1,73 +1,70 @@
+import { NavigationContainer } from '@react-navigation/native';
 import * as React from 'react';
 
 
 import { StyleSheet, Text, View,Image,TouchableHighlight } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 
-export default function ItemCountry({countryData}) {
-    const [isLoading, setLoading] = React.useState(true);
+export default function ItemCountry({navigation,countryData}) {
     const [ isPress, setIsPress ] = React.useState(false);
-    
+    const flagURL = "https://hatscripts.github.io/circle-flags/flags/" + countryData.countryCode.toLowerCase() +".svg"
 
     var touchProps = {
         activeOpacity: 1,
         underlayColor: '#504ED9',                               // <-- "backgroundColor" will be always overwritten by "underlayColor"
-        style: isPress ? styles.btnPress : styles.btnNormal, // <-- but you can still apply other style changes
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
-        onPress: () => console.log('HELLO'),                 // <-- "onPress" is apparently required
+        onPress: () => {
+          navigation.navigate('Country',{
+            country: countryData
+          })
+        },                 // <-- "onPress" is apparently required
       };
 
   return (
     <>
-        <TouchableHighlight {...touchProps}>
-            <View style={styles.itemCountry}>
+
+        <TouchableHighlight style={styles.itemCountry} {...touchProps}>
+        <View style={styles.countryContainer}>
             <SvgUri
       width="40"
       height="40"
-      source={{uri:"https://hatscripts.github.io/circle-flags/flags/se.svg"}}
+      style={styles.flag}
+      source={{uri:flagURL}}
     />
                 <Text style={isPress ? styles.countryTextPressed : styles.countryText}>{countryData.countryName}</Text>
-            </View>
+        </View>
         </TouchableHighlight>
+
     </>
   )
 }
 
 const styles = StyleSheet.create({
    itemCountry:{
-        flexDirection: "column",
        paddingHorizontal: 30,
-       paddingVertical: 30,
-       shadowColor: "#000",
-       shadowOffset: {
-           width: 0,
-           height: 1,
-       },
-       shadowOpacity: 0.5,
-       shadowRadius: 1.10,
-       
-       elevation: 0.010,
+       paddingVertical: 20,
       borderRadius: 8,
+      borderWidth: 1,
+      borderColor: "#C7C7C7",
+      marginBottom: 10
     
    },
+   countryContainer:{
+    flexDirection: "row",
+    alignItems: "center",
+   },
    flag: {
-    width: 50,
-    height: 50,
+   paddingLeft: 1,
   },
   countryText:{
-      fontSize: 20
+      fontSize: 20,
+      paddingLeft: 20,
+      color: "black",
   },
   countryTextPressed:{
     fontSize: 20,
-    color: "white"
+    color: "white",
+    paddingLeft: 20,
 },
-  btnNormal:{
-    borderRadius: 8,
-  },
-  btnPress:{
-      borderRadius: 8,
-      color: "white"
-
-  }
   });

@@ -9,11 +9,11 @@ import { faCity,faEarthEurope } from '@fortawesome/free-solid-svg-icons'
 
 export default function HomeScreen({navigation}) {
 
-  const {colors} = useTheme();
+
     return (
-      <View>
-      <View style={{backgroundColor: "#FFF", flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-  
+      <>
+      <View style={{backgroundColor: "#FFF", flex: 0.7, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>CityPop</Text>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -26,7 +26,7 @@ export default function HomeScreen({navigation}) {
           <Text style={styles.buttonText}>Search by country</Text>
         </TouchableOpacity>
       </View>
-      </View>
+      </>
     );
 
     
@@ -35,6 +35,7 @@ export default function HomeScreen({navigation}) {
 
   const styles = StyleSheet.create({
     buttonStyle: {
+      marginBottom: 10,
       justifyContent: 'flex-start',
       alignItems: 'center',
       backgroundColor: "#504ED9",
@@ -49,7 +50,8 @@ export default function HomeScreen({navigation}) {
     },
     buttonText:{
       color: "#FAFAFA",
-      fontSize: 20
+      fontSize: 20,
+      marginLeft: 20,
     },
     buttonContainer: {
       paddingHorizontal: 20,

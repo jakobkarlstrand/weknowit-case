@@ -1,9 +1,5 @@
 import * as React from 'react';
-
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,Button,TouchableOpacity } from 'react-native';
-import { NavigationContainer, useTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCity,faEarthEurope } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,22 +7,22 @@ export default function HomeScreen({navigation}) {
 
 
     return (
-      <>
-      <View style={{backgroundColor: "#FFF", flex: 0.7, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>CityPop</Text>
-      </View>
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+        <Image style={styles.homeImage} source={require("../assets/cityPop.png")} />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('SearchByCity')}>
-          <FontAwesomeIcon size={30} color="#FAFAFA" icon={faCity}/>
-          <Text style={styles.buttonText}>Search by city</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('SearchByCountry')}>
-          <FontAwesomeIcon size={30} color="#FAFAFA" icon={faEarthEurope}/>
-          <Text style={styles.buttonText}>Search by country</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('SearchByCity')}>
+            <FontAwesomeIcon size={30} color="#FAFAFA" icon={faCity}/>
+            <Text style={styles.buttonText}>Search by city</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate('SearchByCountry')}>
+            <FontAwesomeIcon size={30} color="#FAFAFA" icon={faEarthEurope}/>
+            <Text style={styles.buttonText}>Search by country</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      </>
     );
 
     
@@ -34,6 +30,8 @@ export default function HomeScreen({navigation}) {
 
 
   const styles = StyleSheet.create({
+
+
     buttonStyle: {
       marginBottom: 10,
       justifyContent: 'flex-start',
@@ -55,5 +53,14 @@ export default function HomeScreen({navigation}) {
     },
     buttonContainer: {
       paddingHorizontal: 20,
+    },
+    homeImage : {
+      marginTop: -100,
+      width: "100%",
+    resizeMode: "contain"
+    },
+    imageContainer: {
+      justifyContent: "center",
+      alignItems: "center"
     }
   });

@@ -1,10 +1,9 @@
 import * as React from 'react';
 
-import { StyleSheet, Text, View,Button, ActivityIndicator,TextInput, ScrollView,ScrollAreaView,Image } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, ScrollView,Image } from 'react-native';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import ItemCountry from "../components/ItemCountry"
+import Searchbar from '../components/Searchbar';
 
 
 
@@ -12,6 +11,7 @@ export default function SearchByCountry({navigation}) {
 
     const [isLoading, setLoading] = React.useState(true);
     const [data, setData] = React.useState([]);
+    const [empty, setEmpty] = React.useState(false);
     const [searchString, setSearchString] = React.useState("")
 
     const handleInputChange = (text) =>{
@@ -27,7 +27,7 @@ export default function SearchByCountry({navigation}) {
       const timeoutId = setTimeout(() => {
         setLoading(true)
         getCountries()
-      }, 300);
+      }, 200);
     return () => clearTimeout(timeoutId);
     },[searchString])
 
@@ -41,9 +41,17 @@ export default function SearchByCountry({navigation}) {
         const filtered = (json.geonames.filter((country) =>{
           return country.countryName.toLowerCase().startsWith(searchString.toLowerCase());
         }));
-        setData(filtered.sort((countryA,countryB) =>{
-          return countryA.population < countryB.population ? 1 : -1
-        }))
+        if(filtered.length === 0){
+          setEmpty(true);
+        }
+        else{
+          setData(filtered.sort((countryA,countryB) =>{
+            return countryA.population < countryB.population ? 1 : -1
+          }))
+          setEmpty(false)
+        }
+        
+
       } catch (error) {
         console.error(error);
       }finally{
@@ -54,10 +62,7 @@ export default function SearchByCountry({navigation}) {
     return (
       <ScrollView>
       <View style={{backgroundColor: "#FFF", flex: 1,  justifyContent: 'flex-start', paddingHorizontal: 20, paddingTop: 20 }}>
-        <View style={styles.searchSection}>
-          <FontAwesomeIcon style={styles.searchIcon} icon={faMagnifyingGlass} color="#504ED9"/>
-          <TextInput placeholder="Ex. 'Sweden'" style={styles.input} value={searchString}  onChangeText={handleInputChange} underlineColorAndroid="transparent"></TextInput>
-        </View>
+        <Searchbar placeholder={"Ex. 'Sweden'"} onChangeText={handleInputChange}/>
 
         <View style={styles.countryResults}> 
 
@@ -76,25 +81,22 @@ export default function SearchByCountry({navigation}) {
           }
 
         </View>
-        {data.length == 0 && !isLoading &&
-          <View style={styles.noResults}>
+        <View style={styles.noResults}>
+            {empty && !isLoading &&
+              
+                <>
+                  <Text>Sorry, no countries found for "{searchString}"</Text>
+                  <Image style={styles.searchImage} source={require("../assets/no_results.png")} />
+                </>
+              
+            }
             {searchString == "" &&
-              <>
-                <Text>Search for a country</Text>
-                <Image style={styles.searchImage} source={require("../assets/search_image.png")} />
-              </>
-            }
-
-            {searchString != "" &&
-              <>
-                <Text>Sorry, no countries found for "{searchString}"</Text>
-                <Image style={styles.searchImage} source={require("../assets/no_results.png")} />
-              </>
-            }
-
-
+                <>
+                  <Text>Search for a country</Text>
+                  <Image style={styles.searchImage} source={require("../assets/search_image.png")} />
+                </>
+              }
           </View>
-        }
         
   
       </View>

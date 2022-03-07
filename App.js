@@ -17,7 +17,7 @@ const AppTheme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#504ED9',
-    background: "FAFAFA",
+    background: "#FFF",
   },
 };
 

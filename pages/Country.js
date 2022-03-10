@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { StyleSheet, Text, View,Button, ActivityIndicator,TextInput, ScrollView,ScrollAreaView,Image } from 'react-native';
-import ItemCity from "../components/ItemCity"
+
+import ListItem from '../components/ListItem';
 import Searchbar from '../components/Searchbar';
 
 
@@ -19,31 +20,27 @@ export default function Country({route,navigation}) {
         getCitiesFromCountry()
     },[])
 
-
     const getCitiesFromCountry = async () => {
+      setLoading(true)
       try {
-        const url = `http://api.geonames.org/searchJSON?&country=${geoData.countryCode}&featureCode=PPL&featureCode=PPLS&featureCode=PPLC&featureCode=PPLA&maxRows=100&lang=en&orderby=population&username=weknowit`
+        const url = `http://api.geonames.org/search?&country=${geoData.countryCode}&cities=cities500&maxRows=100&lang=en&orderby=population&username=weknowit&type=json`
         const response = await fetch(url);
         const json = await response.json();
         const filtered = json.geonames.filter((city) =>{
           return city.countryCode != undefined
         });
-
-        setData(filtered.sort((cityA,cityB) =>{
-          return cityA.population < cityB.population ? 1 : -1
-        }))
+        setData(filtered)
+        setLoading(false);
 
       } catch (error) {
         console.error(error);
-      }finally{
-        setLoading(false);
+        
       }
     };
 
 
-
     return (
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='handled'>
       <View style={{backgroundColor: "#FFF", flex: 1,  justifyContent: 'flex-start', paddingHorizontal: 20, paddingTop: 20 }}>
         <Text style={styles.title}>{`Cities of ${geoData.countryName}`}</Text>
         <Searchbar placeholder={`Filter cities in ${geoData.countryName}`} onChangeText={(text) => setSearchString(text.toLowerCase())}/>
@@ -60,16 +57,12 @@ export default function Country({route,navigation}) {
           data.filter((city) =>{
             return city.name.toLowerCase().startsWith(searchString)
           }).map((city,index) =>{
-            return <ItemCity navigation={navigation} key={index} geoData={city}/>
+            return <ListItem key={index} geoData={city} city={true} onPress={() => navigation.navigate("City", {geoData: city})}/>
           })
           }
 
         </View>
-        
-  
       </View>
-
-    
       </ScrollView>
     );
 

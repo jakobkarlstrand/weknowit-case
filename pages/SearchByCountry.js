@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { StyleSheet, Text, View, ActivityIndicator, ScrollView,Image } from 'react-native';
-
-import ItemCountry from "../components/ItemCountry"
+import ListItem from '../components/ListItem';
 import Searchbar from '../components/Searchbar';
 
 
@@ -60,7 +59,7 @@ export default function SearchByCountry({navigation}) {
     };
 
     return (
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='handled'>
       <View style={{backgroundColor: "#FFF", flex: 1,  justifyContent: 'flex-start', paddingHorizontal: 20, paddingTop: 20 }}>
         <Searchbar placeholder={"Ex. 'Sweden'"} onChangeText={handleInputChange}/>
 
@@ -75,14 +74,13 @@ export default function SearchByCountry({navigation}) {
           }
           {!isLoading && 
           data.map((country,index) =>{
-            return <ItemCountry navigation={navigation} key={index} geoData={country}/>
-            //return <Text key={index}>{country.countryName}</Text>
+            return <ListItem key={index} geoData={country} city={true} onPress={() => navigation.navigate("Country", {geoData: country})}/>
           })
           }
 
         </View>
         <View style={styles.noResults}>
-            {empty && !isLoading &&
+            {empty && !isLoading && searchString !== "" &&
               
                 <>
                   <Text>Sorry, no countries found for "{searchString}"</Text>

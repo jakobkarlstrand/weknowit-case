@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { StyleSheet, Text, View, ActivityIndicator, ScrollView,Image } from 'react-native';
-
-import ItemCity from "../components/ItemCity"
+import ListItem from '../components/ListItem';
 import Searchbar from '../components/Searchbar';
 
 
@@ -27,7 +26,7 @@ export default function SearchByCity({navigation}) {
       const timeoutId = setTimeout(() => {
         setLoading(true)
         getCities()
-      }, 700);
+      }, 300);
     return () => clearTimeout(timeoutId);
     },[searchString])
 
@@ -35,7 +34,6 @@ export default function SearchByCity({navigation}) {
     const getCities = async () => {
       try {
         const url = `http://api.geonames.org/search?username=weknowit&type=json&name_startsWith=${encodeURIComponent(searchString)}&orderby=relevance&maxRows=10&cities=cities500`
-        //const url = `http://api.geonames.org/searchJSON?&name_startsWith=${encodeURIComponent(searchString)}&featureCode=PPL&featureCode=PPLS&featureCode=PPLC&featureCode=PPLA&maxRows=30&lang=en&orderby=population&username=weknowit`
         const response = await fetch(url);
         const json = await response.json();
         const filtered = json.geonames.filter((city) =>{
@@ -62,7 +60,7 @@ export default function SearchByCity({navigation}) {
     };
 
     return (
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='handled'>
         <View style={{backgroundColor: "#FFF", flex: 1,  justifyContent: 'flex-start', paddingHorizontal: 20, paddingTop: 20 }}>
           <Searchbar placeholder={"Ex. 'Stockholm'"} onChangeText={handleInputChange}/>
           <View style={styles.countryResults}> 
@@ -76,14 +74,14 @@ export default function SearchByCity({navigation}) {
             }
             {!isLoading && 
             data.map((city,index) =>{
-              return <ItemCity navigation={navigation} key={index} geoData={city}/>
+              return <ListItem key={index} geoData={city} city={true} onPress={() => navigation.navigate("City", {geoData: city})}/>
             })
             }
 
           </View>
 
           <View style={styles.noResults}>
-            {empty && !isLoading &&
+            {empty && !isLoading && searchString !== "" &&
               
                 <>
                   <Text>Sorry, no cities found for "{searchString}"</Text>

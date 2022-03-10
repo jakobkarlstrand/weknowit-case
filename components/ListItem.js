@@ -1,37 +1,36 @@
 import React from 'react'
-import SvgUri from 'react-native-svg-uri';
+import {SvgUri} from 'react-native-svg';
 import { StyleSheet, Text, View,TouchableHighlight } from 'react-native';
 import numberWithSpaces from '../utils/numberWithSpace';
-export default function Card({svgURI,onClick, geoData, showPopulation = true}) {
+export default function ListItem({onPress, geoData, isCity = false}) {
 
-
+  console.log(geoData)
     const [ isPress, setIsPress ] = React.useState(false);
+
+    const flagURL = "https://hatscripts.github.io/circle-flags/flags/" + geoData.countryCode.toLowerCase() +".svg"
 
 var touchProps = {
     activeOpacity: 1,
     underlayColor: '#504ED9',
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true),
-    onPress: onClick, 
+    onPress: onPress, 
     };
 
   return (
     <TouchableHighlight style={styles.touchable} {...touchProps}>
-        <View style={styles.container}>
-                <View >
-                <SvgUri
-                    width="40"
-                    height="40"
-                    style={styles.flag}
-                    source={{uri:svgURI}}
-                    />
-                
-                </View>
-                <View style={styles.information}>
-                <Text style={isPress ? styles.textPressed : styles.text}>{geoData.toponymName} {showPopulation ? <Text>{", " + geoData.countryName}</Text> : "" }</Text>
-                <Text>{numberWithSpaces(geoData.population)}</Text>
-                </View>
-            </View>
+      <View style={styles.container}>
+        <SvgUri
+            width="40"
+            height="40"
+            style={styles.flag}
+            uri= {flagURL}
+            />
+        <View style={styles.information}>
+        <Text style={[isPress ? styles.textPressed : styles.text, {fontWeight: geoData.fcode === "PPLC" ? "bold" : "normal"}]}>{geoData.name} {isCity && <Text>{", " + geoData.countryName}</Text>}</Text>
+          <Text style={[isPress ? styles.textPressed : styles.text, {fontSize: 15}]} >{numberWithSpaces(geoData.population)}</Text>
+        </View>
+      </View>
     </TouchableHighlight>
   )
 }
@@ -39,7 +38,8 @@ var touchProps = {
 
 const styles = StyleSheet.create({
     touchable:{
-        paddingHorizontal: 30,
+        paddingRight: 30,
+        paddingLeft: 20,
         paddingVertical: 20,
        borderRadius: 8,
        borderWidth: 1,
@@ -69,6 +69,5 @@ const styles = StyleSheet.create({
    textPressed:{
      fontSize: 20,
      color: "white",
-     paddingLeft: 20,
  },
    });

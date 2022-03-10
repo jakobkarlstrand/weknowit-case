@@ -2,8 +2,8 @@ import { faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import * as React from 'react';
 
-import { StyleSheet, Text, View,ScrollView, TouchableOpacity} from 'react-native';
-import SvgUri from 'react-native-svg-uri';
+import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {SvgUri} from 'react-native-svg';
 import numberWithSpaces from '../utils/numberWithSpace';
 
 
@@ -24,7 +24,7 @@ export default function Country({route,navigation}) {
                     width="30"
                     height="30"
                     style={styles.flag}
-                    source={{uri:flagURL}}
+                    uri={flagURL}
                 />
                 <Text style={{color: "white", marginLeft: 10}}>{geoData.countryName}</Text>
             </View>
@@ -44,7 +44,7 @@ export default function Country({route,navigation}) {
                   width="30"
                   height="30"
                   style={styles.flag}
-                  source={{uri:flagURL}}
+                  uri={flagURL}
               />
             <Text style={styles.buttonText}>View all cities of {geoData.countryName}</Text>
           </TouchableOpacity>

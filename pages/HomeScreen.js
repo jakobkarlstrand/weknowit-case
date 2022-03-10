@@ -60,6 +60,7 @@ export default function HomeScreen({navigation}) {
     resizeMode: "contain"
     },
     imageContainer: {
+      marginTop: -10,
       justifyContent: "center",
       alignItems: "center"
     }

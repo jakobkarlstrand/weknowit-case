@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { StyleSheet, Text, View,Button, ActivityIndicator,TextInput } from 'react-native';
 
 export default function Searchbar({placeholder, onChangeText}) {
@@ -9,6 +9,7 @@ export default function Searchbar({placeholder, onChangeText}) {
     <View style={[styles.searchSection,{borderColor: isFocused ? "#504ED9" : "#C7C7C7"} ]}>
         <FontAwesomeIcon style={styles.searchIcon} icon={faMagnifyingGlass} color={isFocused ? "#504ED9" : "#C7C7C7"}/>
         <TextInput onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} placeholder={placeholder} style={styles.input} onChangeText={onChangeText} underlineColorAndroid="transparent"></TextInput>
+        
     </View>
   )
 }
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderWidth: 1,
         borderRadius: 4,
+        maxHeight: 50
       },
       searchIcon: {
         marginHorizontal: 10,

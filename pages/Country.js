@@ -74,7 +74,16 @@ export default function Country({ route, navigation }) {
           {isLoading && <LoadingSpinner text={"Loading cities..."}/> ||
             filterCities()
           }
+        {filterCities().length === 0 &&
+          <Text style={{color: "gray",textAlign: "center"}}>No results for {searchString}</Text>
+        }
 
+        </View>
+        <View style={{justifyContent: "flex-start", height: 400}}>
+        {limit !== 100 && !isLoading &&
+          <Text style={{textAlign: "center", marginTop: 20}}>Swipe up to load more</Text>
+
+        }
         </View>
       </View>
     </ScrollView>

@@ -27,6 +27,11 @@ I use three different requests:
 * Get cities based on search
 * Get all cities from specific country
 
+### Improvements
+Some improvements I would like to do:
+* Show list of countries once the SVG has rendered completely instead of when the fetching is done.
+* Improve the functionality and clarity of pagniation under the page "Country"
+
 ### Implementation
 Once the API and the navigation worked properly, I started implementing the design and functionality.
 I made a few changes of the design on the way, which is not updated in Figma.

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import ListItem from '../components/ListItem';
+import LoadingSpinner from '../components/LoadingSpinner';
 import Searchbar from '../components/Searchbar';
 
 
@@ -24,7 +25,7 @@ export default function Country({ route, navigation }) {
 
  
 
-  const getCitiesFromCountry = async () => {
+  const getCitiesFromCountry = async () => { // Fetch cities from specific country
     try {
       const url = `http://api.geonames.org/search?&country=${geoData.countryCode}&cities=cities500&maxRows=100&lang=en&orderby=population&username=weknowit&type=json`
       const response = await fetch(url);
@@ -69,14 +70,8 @@ export default function Country({ route, navigation }) {
         <Searchbar placeholder={`Filter cities in ${geoData.countryName}`} onChangeText={(text) => setSearchString(text.toLowerCase())} />
         <View style={styles.countryResults}>
 
-          {isLoading &&
-            <>
-              <ActivityIndicator size={"large"} color="#504ED9" />
-              <Text style={{ textAlign: "center", justifyContent: "center" }}>Loading Cities...</Text>
-            </>
 
-          }
-          {!isLoading &&
+          {isLoading && <LoadingSpinner text={"Loading cities..."}/> ||
             filterCities()
           }
 

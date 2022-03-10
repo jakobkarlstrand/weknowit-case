@@ -53,9 +53,6 @@ export default function Country({ route, navigation }) {
           <Text style={styles.buttonText}>View all cities of {geoData.countryName}</Text>
         </TouchableOpacity>
       </View>
-
-
-
     </View>
   );
 

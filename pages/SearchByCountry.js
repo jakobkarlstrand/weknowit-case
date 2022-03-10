@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { StyleSheet, Text, View, ActivityIndicator, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import ListItem from '../components/ListItem';
+import LoadingSpinner from '../components/LoadingSpinner';
 import Searchbar from '../components/Searchbar';
 
 
@@ -23,14 +24,14 @@ export default function SearchByCountry({ navigation }) {
       setLoading(false);
       return;
     }
-    const timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(() => { // Fetch data only when user hasnt typed anything for 0.3 seconds
       getCountries()
     }, 300);
     return () => clearTimeout(timeoutId);
   }, [searchString])
 
 
-  const getCountries = async () => {
+  const getCountries = async () => { // Get countries from GeoNames API by search string
     setLoading(true)
     try {
       const url = `http://api.geonames.org/searchJSON?&name_startsWith=${encodeURIComponent(searchString).toLowerCase()}&featureCode=PCLI&maxRows=20&orderby=population&lang=en&username=weknowit`
@@ -64,15 +65,7 @@ export default function SearchByCountry({ navigation }) {
         <Searchbar placeholder={"Ex. 'Sweden'"} onChangeText={handleInputChange} />
 
         <View style={styles.countryResults}>
-
-          {isLoading &&
-            <>
-              <ActivityIndicator size={"large"} color="#504ED9" />
-              <Text style={{ textAlign: "center", justifyContent: "center" }}>Searching for countries...</Text>
-            </>
-
-          }
-          {!isLoading &&
+          {isLoading && <LoadingSpinner text="Searching for countries"/> ||
             data.map((country, index) => {
               return <ListItem key={index} geoData={country} city={true} onPress={() => navigation.navigate("Country", { geoData: country })} />
             })

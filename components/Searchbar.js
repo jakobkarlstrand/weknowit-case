@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { StyleSheet, Text, View, Button, ActivityIndicator, TextInput } from 'react-native';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { StyleSheet, View, TextInput } from 'react-native';
 
 export default function Searchbar({ placeholder, onChangeText }) {
   const [isFocused, setFocused] = React.useState(false)

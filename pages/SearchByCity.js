@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { StyleSheet, Text, View, ActivityIndicator, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import ListItem from '../components/ListItem';
+import LoadingSpinner from '../components/LoadingSpinner';
 import Searchbar from '../components/Searchbar';
 
 
@@ -31,7 +32,7 @@ export default function SearchByCity({ navigation }) {
   }, [searchString])
 
 
-  const getCities = async () => {
+  const getCities = async () => { // Fetch cities from GeoNames API based on search from user
     try {
       const url = `http://api.geonames.org/search?username=weknowit&type=json&name_startsWith=${encodeURIComponent(searchString)}&orderby=relevance&maxRows=20&cities=cities500`
       const response = await fetch(url);
@@ -65,14 +66,7 @@ export default function SearchByCity({ navigation }) {
         <Searchbar placeholder={"Ex. 'Stockholm'"} onChangeText={handleInputChange} />
         <View style={styles.countryResults}>
 
-          {isLoading &&
-            <>
-              <ActivityIndicator size={"large"} color="#504ED9" />
-              <Text style={{ textAlign: "center", justifyContent: "center" }}>Searching for cities...</Text>
-            </>
-
-          }
-          {!isLoading &&
+          {isLoading && <LoadingSpinner text={"Searching for cities"}/> ||
             data.map((city, index) => {
               return <ListItem key={index} geoData={city} city={true} onPress={() => navigation.navigate("City", { geoData: city })} />
             })

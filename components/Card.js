@@ -1,6 +1,7 @@
 import React from 'react'
 import SvgUri from 'react-native-svg-uri';
 import { StyleSheet, Text, View,TouchableHighlight } from 'react-native';
+import numberWithSpaces from '../utils/numberWithSpace';
 export default function Card({svgURI,onClick, geoData, showPopulation = true}) {
 
 
@@ -27,11 +28,8 @@ var touchProps = {
                 
                 </View>
                 <View style={styles.information}>
-                <Text style={isPress ? styles.textPressed : styles.text}>{geoData.name} {showPopulation ? <Text>{", " + geoData.countryName}</Text> : "" }</Text>
-                {showPopulation &&
-                    <Text>{geoData.population}</Text>
-                }
-                
+                <Text style={isPress ? styles.textPressed : styles.text}>{geoData.toponymName} {showPopulation ? <Text>{", " + geoData.countryName}</Text> : "" }</Text>
+                <Text>{numberWithSpaces(geoData.population)}</Text>
                 </View>
             </View>
     </TouchableHighlight>

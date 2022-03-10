@@ -25,17 +25,16 @@ export default function SearchByCountry({navigation}) {
         return;
       }
       const timeoutId = setTimeout(() => {
-        setLoading(true)
         getCountries()
-      }, 200);
+      }, 300);
     return () => clearTimeout(timeoutId);
     },[searchString])
 
 
     const getCountries = async () => {
-     
+      setLoading(true)
       try {
-        const url = `http://api.geonames.org/searchJSON?&name_startsWith=${searchString.toLowerCase()}&featureCode=PCLI&orderby=population&lang=en&username=weknowit`
+        const url = `http://api.geonames.org/searchJSON?&name_startsWith=${encodeURIComponent(searchString).toLowerCase()}&featureCode=PCLI&orderby=population&lang=en&username=weknowit`
         const response = await fetch(url);
         const json = await response.json();
         const filtered = (json.geonames.filter((country) =>{
@@ -43,6 +42,7 @@ export default function SearchByCountry({navigation}) {
         }));
         if(filtered.length === 0){
           setEmpty(true);
+          setData([])
         }
         else{
           setData(filtered.sort((countryA,countryB) =>{
@@ -75,7 +75,7 @@ export default function SearchByCountry({navigation}) {
           }
           {!isLoading && 
           data.map((country,index) =>{
-            return <ItemCountry navigation={navigation} key={index} countryData={country}/>
+            return <ItemCountry navigation={navigation} key={index} geoData={country}/>
             //return <Text key={index}>{country.countryName}</Text>
           })
           }
@@ -97,11 +97,7 @@ export default function SearchByCountry({navigation}) {
                 </>
               }
           </View>
-        
-  
       </View>
-
-    
       </ScrollView>
     );
 

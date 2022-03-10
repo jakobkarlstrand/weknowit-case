@@ -27,14 +27,15 @@ export default function SearchByCity({navigation}) {
       const timeoutId = setTimeout(() => {
         setLoading(true)
         getCities()
-      }, 200);
+      }, 700);
     return () => clearTimeout(timeoutId);
     },[searchString])
 
 
     const getCities = async () => {
       try {
-        const url = `http://api.geonames.org/searchJSON?&name_startsWith=${searchString}&featureCode=PPL&featureCode=PPLS&featureCode=PPLC&featureCode=PPLA&maxRows=30&lang=en&orderby=population&username=weknowit`
+        const url = `http://api.geonames.org/search?username=weknowit&type=json&name_startsWith=${encodeURIComponent(searchString)}&orderby=relevance&maxRows=10&cities=cities500`
+        //const url = `http://api.geonames.org/searchJSON?&name_startsWith=${encodeURIComponent(searchString)}&featureCode=PPL&featureCode=PPLS&featureCode=PPLC&featureCode=PPLA&maxRows=30&lang=en&orderby=population&username=weknowit`
         const response = await fetch(url);
         const json = await response.json();
         const filtered = json.geonames.filter((city) =>{
@@ -42,6 +43,7 @@ export default function SearchByCity({navigation}) {
         });
         if(filtered.length === 0){
           setEmpty(true)
+          setData([])
         }
         else{
           
@@ -74,7 +76,7 @@ export default function SearchByCity({navigation}) {
             }
             {!isLoading && 
             data.map((city,index) =>{
-              return <ItemCity navigation={navigation} key={index} cityData={city}/>
+              return <ItemCity navigation={navigation} key={index} geoData={city}/>
             })
             }
 

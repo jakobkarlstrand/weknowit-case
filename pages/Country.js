@@ -74,7 +74,7 @@ export default function Country({ route, navigation }) {
           {isLoading && <LoadingSpinner text={"Loading cities..."}/> ||
             filterCities()
           }
-        {filterCities().length === 0 &&
+        {filterCities().length === 0 && !isLoading &&
           <Text style={{color: "gray",textAlign: "center"}}>No results for {searchString}</Text>
         }
 

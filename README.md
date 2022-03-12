@@ -11,6 +11,8 @@ The test was to follow a specification and wireframe from a customer and create 
 I began with designing a prototype for the application in Figma. Can be viewed here: https://www.figma.com/file/HqKlm24Bgrii1WtQxcTkP3/Untitled?node-id=0%3A1
 I tried to keep the design simple and clean, by using only a few colors.
 
+![Pages of application](/weknowit_screens.png)
+
 ### Research
 
 When the design was done I started doing some research about navigation, best practices, and comparison with Reactjs etc., since I've never worked with in React Native before.
